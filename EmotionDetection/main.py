@@ -11,7 +11,7 @@ engine = pyttsx3.init()
 engine.setProperty('rate', 120)
 
 # Modeli yükle
-model = load_model(r'C:\Users\alp54\PycharmProjects\EmotionDetection\best_model.h5')
+model = load_model(r'You can write path of your model')
 
 face_haar_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
