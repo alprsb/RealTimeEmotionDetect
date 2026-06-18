@@ -4,7 +4,7 @@
 
 **RealTimeEmotionDetection**, **Convolutional Neural Network (CNN)** tabanlı bir yapay zekâ modeli kullanarak insan yüz ifadelerini **gerçek zamanlı olarak** analiz eden ve tespit edilen duyguya göre **sesli geribildirim** veren bir uygulamadır.
 
-Uygulama, kamera görüntüsünden yüz ifadelerini tanımlar ve **Mutlu**, **Üzgün**, **Kızgın**, **Normal**, **Korkmuş** gibi temel duyguları tespit eder. Aynı zamanda kullanıcıya **sesli mesaj** ile otomatik geri bildirim sağlar.
+Uygulama, kamera görüntüsünden yüz ifadelerini tanımlar ve **Mutlu**, **Üzgün**, **Kızgın** ve **Normal** olmak üzere dört temel duyguyu tespit eder. Aynı zamanda kullanıcıya **sesli mesaj** ile otomatik geri bildirim sağlar.
 
 Veri seti olarak, **Google'dan indirilen yüz ifadesi görselleri** kullanılmıştır.
 
@@ -37,6 +37,7 @@ RealTimeEmotionDetection/
 │   └── model_train/
 │       └── main.py            # CNN model eğitimi kodu
 │
+├── requirements.txt
 └── README.md
 ```
 
@@ -65,12 +66,17 @@ cd RealTimeEmotionDetection
 2️⃣ Gereken kütüphaneleri yükleyin:
 
 ```bash
-pip install tensorflow opencv-python pyttsx3 pillow
+pip install -r requirements.txt
 ```
 
-3️⃣ Modelinizi doğru dizine yerleştirin:
+3️⃣ Modeli doğru dizine yerleştirin:
 
-- **EmotionDetection/best\_model.h5**
+- Varsayılan olarak uygulama **`EmotionDetection/best_model.h5`** dosyasını kullanır.
+- Farklı bir model kullanmak isterseniz `MODEL_PATH` ortam değişkenini ayarlayın:
+
+```bash
+export MODEL_PATH=/path/to/your_model.h5   # Windows: set MODEL_PATH=...
+```
 
 ---
 
@@ -94,36 +100,35 @@ cd EmotionDetection
 python main.py
 ```
 
-- 🎥 Webcam otomatik olarak açılır.
+- 🎥 "Kamerayı Başlat" düğmesine basınca webcam açılır.
 - 😊 Yüz ifadenize göre tahminler görüntülenir.
-- 🔊 Eğer sesli mesaj seçeneğini aktif ederseniz, kapanışta otomatik olarak mesaj oynatılır.
-- 📌 Çıkış için `q` tuşuna basabilirsiniz.
+- 🔊 Sesli mesaj seçeneğini aktif ederseniz, "Kamerayı Durdur" sonrası otomatik mesaj oynatılır.
+- 📌 Pencereyi kapatarak çıkabilirsiniz.
 
 ---
 
 ## 📸 Duygu Sınıfları
 
-| Etiket     | Anlamı   |
-| ---------- | -------- |
-| `Happy`    | Mutlu    |
-| `Sad`      | Üzgün    |
-| `Mad`      | Kızgın   |
-| `Normal`   | Nötr     |
-| `Korkmus`  | Korkmuş  |
-| `Igrenmis` | İğrenmiş |
-| `Dogal`    | Doğal    |
+Model dört sınıfla eğitilir ve tespit tarafındaki etiket sırası eğitimdeki sınıf sırasıyla birebir aynıdır:
+
+| Sıra (index) | Etiket   | Anlamı |
+| ------------ | -------- | ------ |
+| 0            | `Happy`  | Mutlu  |
+| 1            | `Sad`    | Üzgün  |
+| 2            | `Mad`    | Kızgın |
+| 3            | `Normal` | Nötr   |
 
 ---
 
 ## 🔊 Sesli Mesajlar (Örnekler)
 
-| Duygu   | Sesli Mesaj                                     |
-| ------- | ----------------------------------------------- |
-| Mutlu   | "You are happy. What a surprise!"               |
-| Kızgın  | "Why are you mad? Life is too short to be mad." |
-| Normal  | "You look normal. Do you have any emotions?"    |
-| Korkmuş | "Oh my god! What did you see?"                  |
-| Diğer   | "Son tespit edilen duygu: ..."                  |
+| Duygu  | Sesli Mesaj                                     |
+| ------ | ----------------------------------------------- |
+| Mutlu  | "You are happy. What a surprise!"               |
+| Kızgın | "Why are you mad? Life is too short to be mad." |
+| Normal | "You look normal. Do you have any emotions?"    |
+| Üzgün  | "You look sad. I hope things get better soon."  |
+| Diğer  | "Son tespit edilen duygu: ..."                  |
 
 ---
 
@@ -132,13 +137,10 @@ python main.py
 ✅ Daha fazla duygu sınıfı eklenebilir.\
 ✅ Sesli mesajlar kişiselleştirilebilir veya çok dilli hale getirilebilir.\
 ✅ Web tabanlı arayüz entegre edilebilir (Streamlit, Flask).\
-✅ Derin öğrenme modeli iyileştirilebilir.
+✅ Derin öğrenme modeli iyileştirilebilir (örn. MobileNetV2 ile transfer learning).
 
 ---
 
 ## 📜 Lisans
 
 MIT Lisansı altında açık kaynak olarak sunulmuştur.
-
----
-
